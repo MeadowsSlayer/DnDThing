@@ -70,5 +70,3 @@ for i in range(Character.char_count):
 	print("Раса персонажа:", charas[i].char_specie)
 	print("Класс персонажа:", charas[i].char_class)
 	print("Уровень персонажа:", charas[i].char_lvl, "\n")
-
-print("The End")
