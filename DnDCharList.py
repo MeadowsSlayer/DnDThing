@@ -43,10 +43,16 @@ class Character:
 			self.char_class = "Изобретатель"
 
 		if int(char_lvl) > 20:
-			self.char_lvl = 20
+			self.__char_lvl = 20
 		else:
-			self.char_lvl = char_lvl
+			self.__char_lvl = char_lvl
 		Character.char_count += 1
+
+	def getlvl(self):
+		print("Уровень персонажа:", self.__char_lvl, "\n")
+
+	def setlvl(self, lvl):
+		self.__char_lvl = lvl
 
 charas = []
 i = 0
@@ -69,4 +75,7 @@ for i in range(Character.char_count):
 	print("Имя персонажа:", charas[i].char_name)
 	print("Раса персонажа:", charas[i].char_specie)
 	print("Класс персонажа:", charas[i].char_class)
-	print("Уровень персонажа:", charas[i].char_lvl, "\n")
+	charas[i].getlvl()
+
+charas[0].setlvl(10)
+charas[0].getlvl()
