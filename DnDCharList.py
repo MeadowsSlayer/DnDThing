@@ -1,3 +1,5 @@
+charas = []
+
 class Character:
 	char_count = 0
 
@@ -13,11 +15,21 @@ class Character:
 		if int(char_specie) == 1:
 			self.char_specie = "Человек"
 		elif int(char_specie) == 2:
-			self.char_specie = "Гном"
+			self.char_specie = "Дварф"
 		elif int(char_specie) == 3:
-			self.char_specie = "Драконорожденный"
+			self.char_specie = "Полурослик"
 		elif int(char_specie) == 4:
+			self.char_specie = "Эльф"
+		elif int(char_specie) == 5:
+			self.char_specie = "Драконорожденный"
+		elif int(char_specie) == 6:
+			self.char_specie = "Гном"
+		elif int(char_specie) == 7:
 			self.char_specie = "Полуорк"
+		elif int(char_specie) == 8:
+			self.char_specie = "Тифлинг"
+		elif int(char_specie) == 9:
+			self.char_specie = "Полуэльф"
 
 		#Класс персонажа
 		if int(char_class) == 1:
@@ -57,6 +69,7 @@ class Character:
 		else:
 			self.__char_lvl = int(char_lvl)
 
+		#Раздаем статы и приписываем к ним модификаторы
 		for i in range(6):
 			for c in range(len(char_stats)):
 				if (char_stats[c] == " ") and (len(char_stats) >= 2):
@@ -89,6 +102,7 @@ class Character:
 			elif (self.stats[i] == 20):
 				self.modyfiers[i] = 5
 
+		#Задаем хиты в зависимости от класса и уровня
 		if int(char_class) == 1:
 			self.char_hp = 12 + ((self.__char_lvl - 1) * 7) + (self.__char_lvl * self.modyfiers[2])
 
@@ -130,34 +144,45 @@ class Character:
 			self.char_hp = 10 + ((self.__char_lvl - 1) * 6) + (self.__char_lvl * self.modyfiers[2])
 
 
-charas = []
-i = 0
+def Menu():
+	option = input("1 - Создать нового персонажа\n2 - Просмотреть список созданных персонажей\n3 - Закрыть программу\n")
+	if int(option) == 1:
+		print(" ")
+		CharacterCreation()
+	elif int(option) == 2:
+		print(" ")
+		LookForChara()
 
-while i != 1:
+def CharacterCreation():
 	name = input("Введите имя персонажа: ")
-	specie = input("Введите число, соответствующее расе персонажа: \n 1 - человек, \n 2 - гном,\n 3 - драконорожденный,\n 4 - полуорк \nРаса: ")
-	c_class = input("Введите число, соответствующее классу персонажа: \n 1 - варвар,\n 2 - бард,\n 3 - жрец,\n 4 - монах,\n 5 - плут,\n 6 - колдун,\n 7 - друид,\n 8 - изобретатель,\n 9 - чародей,\n 10 - волшебник,\n 11 - воин,\n 12 - паладин,\n 13 - следопыт \nКласс: ")
+	specie = input("Введите число, соответствующее расе персонажа: \n 1 - человек, \n 2 - дварф,\n 3 - полурослик,\n 4 - эльф,\n 5 - драконорожденный,\n 6 - гном,\n 7 - полуорк,\n 8 - тифлинг,\n 9 - полуэльф \nРаса: ")
+	c_class = input("""Введите число, соответствующее классу персонажа: \n 1 - варвар,\n 2 - бард,
+		\n 3 - жрец,\n 4 - монах,\n 5 - плут,\n 6 - колдун,\n 7 - друид,\n 8 - изобретатель,\n 9 - чародей,
+		\n 10 - волшебник,\n 11 - воин,\n 12 - паладин,\n 13 - следопыт \nКласс: """)
 	level = input("Введите уровень персонажа: ")
 	statistics = input("Введите характеристики через пробел(только численные значения): ")
 	statistics = statistics + " "
 	charas.append(Character())
 	count = Character.char_count
 	charas[count].start(name, specie, c_class, level, statistics)
+	print("Число персонажей: ", Character.char_count, "\n")
 
-	i = input("Если вы хотите создать еще персонажа, то введите 0, если же с вас достаточно, вы устали и весь мир остановился - введите 1: \n")
-	i = int(i)
+	Menu()
 
-print("Число персонажей: ", Character.char_count, "\n")
+def LookForChara():
+	for i in range(Character.char_count):
+		print(i, "-", charas[i].char_name)
+	name_of_chara = input("Выберите персонажа: ")
+	print(" ")
 
-for i in range(Character.char_count):
-	print("Имя персонажа:", charas[i].char_name)
-	print("Раса персонажа:", charas[i].char_specie)
-	print("Класс персонажа:", charas[i].char_class)
-	charas[i].getlvl()
-	print("Хиты персонажа:", charas[i].char_hp)
-	print("")
-	charas[i].getstats()
+	print("Имя персонажа:", charas[int(name_of_chara)].char_name)
+	print("Раса персонажа:", charas[int(name_of_chara)].char_specie)
+	print("Класс персонажа:", charas[int(name_of_chara)].char_class)
+	charas[int(name_of_chara)].getlvl()
+	print("Хиты персонажа:", charas[int(name_of_chara)].char_hp)
+	print("Характеристики персонажа: ")
+	charas[int(name_of_chara)].getstats()
 
-charas[0].setlvl(10)
-charas[0].getlvl()
-print("Хиты персонажа:", charas[0].char_hp)
+	Menu()
+
+Menu()
